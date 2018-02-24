@@ -5,46 +5,73 @@ import processing.core.PApplet;
 public class City 
 {
 	private PApplet parent;
-	public int population, farms, size, houses, geography, jobs;
+	public double posX, posY;
+	public int young, adult, old; 
+	int size;
+	int houses;
+	boolean isHostile;
+	int economy;
+	int foodSupply; // 1 = enough food for 1 person a day
+	public int[] jobs;
 	
-	public City(int pop, int farm, int sz, int house, int geo, int job)
+	public City(PApplet p, int y, int a, int o, int sz, int house, int geo, int[] job)
 	{
-		population = pop;
-		farms = farm;
+		parent = p;
+		young = y;
+		adult = a;
+		old = o;
 		size = sz;
 		houses = house;
-		geography = geo;
-		jobs = job;
+		jobs = job; //pos1 is technology
+		posX = parent.random(0, 1801);
+		posY = parent.random(0, 901);
 	}
 	
-	public int getJobs()
+	public void passDay(int newFood)
 	{
-		return jobs;
+		if(foodSupply < young + adult + old)
+		{
+			int diff = foodSupply - (young + adult + old);
+			young -= diff/3;
+			adult -= diff/3;
+			old -= diff/3;
+		}
+		foodSupply -= (young + adult + old);
+		foodSupply += newFood;
+		
+		int changeInPop;
+		changeInPop = adult / 1000;
 	}
 	
-	public int getGeo()
+	public void growCity()
 	{
-		return geography;
+		double growth;
 	}
 	
-	public int getHouses()
+	public void drawCity() 
 	{
-		return houses;
+		parent.fill(255, 0, 0);
+		parent.ellipse((float)posX, (float)posY, size, size);
 	}
-	
-	public int getPop()
-	{
-		return population;
-	}
-	
-	public int getFarms()
-	{
-		return farms;
-	}
-	
+
 	public int getSize()
 	{
 		return size;
+	}
+
+	public int getYoung()
+	{
+		return young;
+	}
+	
+	public int getAdult()
+	{
+		return adult;
+	}
+	
+	public int getOld()
+	{
+		return old;
 	}
 }
 
